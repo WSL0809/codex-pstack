@@ -27,7 +27,8 @@ class InstallTests(unittest.TestCase):
 
     def test_install_is_independent_and_repeatable(self):
         self.assertEqual(self.run_action("install")["action"], "installed")
-        self.assertFalse((self.target / "pstack").is_symlink())
+        self.assertTrue((self.target / "pstack").is_symlink())
+        self.assertNotEqual((self.target / "pstack").resolve(), self.source / "skills/pstack")
         self.assertEqual(self.run_action("install")["action"], "unchanged")
         self.assertEqual(self.run_action("status")["skills"], {"pstack": "ok"})
         (self.source / "skills/pstack/SKILL.md").write_text("changed source")
@@ -69,7 +70,7 @@ class InstallTests(unittest.TestCase):
 
     def test_missing_skill_can_be_repaired(self):
         self.run_action("install")
-        manage.shutil.rmtree(self.target / "pstack")
+        (self.target / "pstack").unlink()
         self.assertEqual(self.run_action("status")["skills"]["pstack"], "missing")
         self.run_action("update")
         self.assertEqual(self.run_action("status")["skills"]["pstack"], "ok")
@@ -115,6 +116,61 @@ class InstallTests(unittest.TestCase):
     def test_status_does_not_create_target(self):
         self.assertFalse(self.run_action("status")["installed"])
         self.assertFalse(self.target.exists())
+
+    def test_complete_runtime_preserves_support_files(self):
+        (self.source / "docs").mkdir()
+        (self.source / "docs/guide.md").write_text("original guide")
+        dormant = self.source / "automations/benny/skills/triage"
+        dormant.mkdir(parents=True)
+        (dormant / "SKILL.md").write_text("dormant original")
+        self.run_action("install")
+        runtime = (self.target / "pstack").resolve().parents[1]
+        self.assertEqual((runtime / "docs/guide.md").read_text(), "original guide")
+        self.assertEqual((runtime / "automations/benny/skills/triage/SKILL.md").read_text(), "dormant original")
+        self.assertFalse((self.target / "triage").exists())
+
+    def test_runtime_edits_block_removal(self):
+        self.run_action("install")
+        runtime = (self.target / "pstack").resolve().parents[1]
+        (runtime / "notes.md").write_text("retain my notes")
+        with self.assertRaisesRegex(ValueError, "Local changes"):
+            self.run_action("uninstall")
+        self.assertEqual((runtime / "notes.md").read_text(), "retain my notes")
+
+    def test_upgrade_from_v01_copies_to_original_named_skills(self):
+        (self.target / "pstack").mkdir(parents=True)
+        (self.target / "pstack/SKILL.md").write_text("old router")
+        (self.target / "pstack-debug").mkdir()
+        (self.target / "pstack-debug/SKILL.md").write_text("old condensed workflow")
+        old = {"package": manage.PACKAGE_ID, "version": "0.1.0", "skills": {name: manage.fingerprint(self.target / name) for name in ("pstack", "pstack-debug")}}
+        (self.target / manage.RECEIPT).write_text(json.dumps(old))
+        (self.source / "skills/architect").mkdir()
+        (self.source / "skills/architect/SKILL.md").write_text("full original architect")
+        self.run_action("update")
+        self.assertFalse((self.target / "pstack-debug").exists())
+        self.assertTrue((self.target / "architect").is_symlink())
+        self.assertEqual((self.target / "architect/SKILL.md").read_text(), "full original architect")
+
+    def test_project_install_remains_valid_after_moving_project(self):
+        project = self.root / "project"
+        target = project / ".agents/skills"
+        manage.manage("install", target, self.source)
+        moved = self.root / "relocated project"
+        project.rename(moved)
+        status = manage.manage("status", moved / ".agents/skills", self.source)
+        self.assertEqual(status["runtime"], "ok")
+        self.assertEqual(status["skills"]["pstack"], "ok")
+
+    def test_failed_link_creation_preserves_old_installation(self):
+        self.run_action("install")
+        old_link = (self.target / "pstack").readlink()
+        (self.source / "skills/pstack/SKILL.md").write_text("next")
+        with patch.object(Path, "symlink_to", side_effect=OSError("links unavailable")):
+            with self.assertRaisesRegex(OSError, "links unavailable"):
+                self.run_action("update")
+        self.assertEqual((self.target / "pstack").readlink(), old_link)
+        self.assertEqual((self.target / "pstack/SKILL.md").read_text(), "first version")
+        self.assertEqual(self.run_action("status")["runtime"], "ok")
 
 
 if __name__ == "__main__":

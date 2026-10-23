@@ -14,11 +14,40 @@ jobs:
       matrix:
         python-version: ['3.9', '3.13']
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
       - name: Validate package
         run: python scripts/validate.py
       - name: Test installation lifecycle
         run: python -m unittest discover -s tests -v
+
+  upstream-tools:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '26'
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install TLC from the official release
+        shell: bash
+        run: |
+          curl --fail --location --retry 3 \
+            https://github.com/tlaplus/tlaplus/releases/download/v1.7.4/tla2tools.jar \
+            --output "$RUNNER_TEMP/tla2tools.jar"
+          echo "936a262061c914694dfd669a543be24573c45d5aa0ff20a8b96b23d01e050e88  $RUNNER_TEMP/tla2tools.jar" | sha256sum --check
+          echo "TLA2TOOLS=$RUNNER_TEMP/tla2tools.jar" >> "$GITHUB_ENV"
+      - name: Test original orchestration tools
+        working-directory: skills/poteto-mode/scripts
+        run: |
+          npx --yes --package=bun@1.4.4 -- bun install --frozen-lockfile
+          npx --yes --package=bun@1.4.4 -- bun run test
+          npx --yes --package=bun@1.4.4 -- bun run typecheck
+      - name: Test original statechart tools with TLC
+        run: node --test skills/statechart/scripts/test/statechart.test.mjs

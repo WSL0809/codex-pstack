@@ -6,6 +6,7 @@ Does not create a model session or run a model request.
 """
 
 import json
+from collections import Counter
 from pathlib import Path
 import queue
 import subprocess
@@ -14,7 +15,8 @@ import tempfile
 import threading
 import time
 
-EXPECTED = {"pstack", "pstack-design", "pstack-debug", "pstack-review", "pstack-verify", "pstack-explain", "pstack-improve", "pstack-orchestrate"}
+PACKAGE = Path(__file__).resolve().parents[1]
+EXPECTED = {p.parent.name for p in (PACKAGE / "skills").glob("*/SKILL.md")}
 
 
 def check():
@@ -56,7 +58,7 @@ def check():
                     return message["result"]
 
         try:
-            send({"id": 1, "method": "initialize", "params": {"clientInfo": {"name": "pstack_discovery", "version": "0.1.0"}}})
+            send({"id": 1, "method": "initialize", "params": {"clientInfo": {"name": "pstack_discovery", "version": "0.2.0"}}})
             receive(1)
             send({"method": "initialized"})
             send({"id": 2, "method": "skills/list", "params": {"cwds": [str(Path.cwd()), other], "forceReload": True}})
@@ -66,14 +68,21 @@ def check():
                 raise RuntimeError("Expected discovery results for both directories")
             rows = []
             for entry in entries:
-                ours = [skill for skill in entry["skills"] if skill["name"] in EXPECTED]
+                ours = []
+                for skill in entry["skills"]:
+                    name = skill["name"].removeprefix("codex-pstack:")
+                    if name in EXPECTED:
+                        ours.append({**skill, "name": name, "invocation": "$" + skill["name"]})
                 if {s["name"] for s in ours} != EXPECTED or len(ours) != len(EXPECTED):
-                    raise RuntimeError("Missing or duplicate pstack skill names in a workspace")
+                    counts = Counter(s["name"] for s in ours)
+                    missing = sorted(EXPECTED - set(counts))
+                    duplicates = {name: [s["path"] for s in ours if s["name"] == name] for name, count in counts.items() if count > 1}
+                    raise RuntimeError(json.dumps({"missing": missing, "duplicates": duplicates, "package_errors": [e for e in entry["errors"] if Path(e["path"]).parent.name in EXPECTED]}))
                 if not all(s["enabled"] and s["scope"] == "user" for s in ours):
                     raise RuntimeError("Pstack skills were not all enabled at user scope")
-                if any("pstack" in error["path"] for error in entry["errors"]):
+                if any(Path(error["path"]).parent.name in EXPECTED for error in entry["errors"]):
                     raise RuntimeError("Codex reported a pstack skill parse error")
-                rows.append({"workspace": "isolated" if entry["cwd"] == other else "current", "skills": sorted(s["name"] for s in ours), "scope": "user", "enabled": True})
+                rows.append({"workspace": "isolated" if entry["cwd"] == other else "current", "skills": sorted(s["name"] for s in ours), "scope": "user", "enabled": True, "entry": next(s["invocation"] for s in ours if s["name"] == "pstack")})
             return {"codex": version, "results": rows}
         finally:
             process.terminate()

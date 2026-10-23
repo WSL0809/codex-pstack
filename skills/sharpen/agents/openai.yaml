@@ -1,0 +1,6 @@
+interface:
+  display_name: "sharpen"
+  short_description: "Original pstack workflow: sharpen"
+  default_prompt: "Use $sharpen for this task, following the original pstack workflow."
+policy:
+  allow_implicit_invocation: false

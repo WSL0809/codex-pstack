@@ -1,4 +1,0 @@
-interface:
-  display_name: "Pstack Explain"
-  short_description: "Explain code and its historical rationale"
-  default_prompt: "Use $pstack-explain to show how this subsystem works."

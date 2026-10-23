@@ -1,4 +1,6 @@
 interface:
   display_name: "Pstack"
-  short_description: "Evidence-based engineering for Codex"
-  default_prompt: "Use $pstack to implement this change and verify its observable behavior."
+  short_description: "Original poteto-mode workflow for Codex"
+  default_prompt: "Use $pstack to follow the original pstack workflow for this task."
+policy:
+  allow_implicit_invocation: false

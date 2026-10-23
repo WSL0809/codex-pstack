@@ -1,4 +1,0 @@
-interface:
-  display_name: "Pstack Design"
-  short_description: "Choose data models and useful interfaces"
-  default_prompt: "Use $pstack-design to compare designs for this change."

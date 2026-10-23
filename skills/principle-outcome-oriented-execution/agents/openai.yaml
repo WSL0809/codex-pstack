@@ -1,0 +1,6 @@
+interface:
+  display_name: "principle-outcome-oriented-execution"
+  short_description: "Original pstack workflow: principle-outcome-oriented-execution"
+  default_prompt: "Use $principle-outcome-oriented-execution for this task, following the original pstack workflow."
+policy:
+  allow_implicit_invocation: false

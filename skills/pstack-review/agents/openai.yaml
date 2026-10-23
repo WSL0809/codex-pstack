@@ -1,4 +1,0 @@
-interface:
-  display_name: "Pstack Review"
-  short_description: "Review changes and verify hidden risks"
-  default_prompt: "Use $pstack-review to assess this diff without modifying it."

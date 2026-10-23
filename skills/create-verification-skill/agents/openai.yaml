@@ -1,0 +1,6 @@
+interface:
+  display_name: "create-verification-skill"
+  short_description: "Original pstack workflow: create-verification-skill"
+  default_prompt: "Use $create-verification-skill for this task, following the original pstack workflow."
+policy:
+  allow_implicit_invocation: false

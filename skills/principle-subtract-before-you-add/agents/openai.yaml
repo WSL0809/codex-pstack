@@ -1,0 +1,6 @@
+interface:
+  display_name: "principle-subtract-before-you-add"
+  short_description: "Original pstack workflow: principle-subtract-before-you-add"
+  default_prompt: "Use $principle-subtract-before-you-add for this task, following the original pstack workflow."
+policy:
+  allow_implicit_invocation: false

@@ -1,117 +1,125 @@
 # Pstack for Codex
 
-把 pstack 的工程方法改写为 Codex 可加载的技能包。统一入口是 `$pstack`。安装一次后，可在本机各个 Codex 工作区使用。
+忠实移植 [原版 pstack](https://github.com/cursor/plugins/tree/main/pstack) 到 Codex。保留原来的技能、工作流、参考文件、提示模板、指南、图片和辅助脚本，只对运行环境增加兼容适配。
 
-本包是独立改写版本。上游为 [cursor/plugins 的 pstack](https://github.com/cursor/plugins/tree/main/pstack)，基线提交为 `8b3326d99fd4b993cb33a24dad8af03175c642c5`。保留 MIT 许可和原作者署名。
+**v0.2.0 包含 57 个原名技能，以及 `$pstack` 快捷入口，共 58 个可调用入口。** 原版 23 个工作流全部保留。Benny 的 3 个技能仍属于休眠自动化包，保持原版的启动方式。
 
-## 快速安装
+v0.1.0 曾把技能压缩为 8 个入口。v0.2.0 已撤销这一设计，恢复原版结构。`$pstack` 现在直接调用完整的 `$poteto-mode`。
 
-需要 Python 3.9 或更新版本。安装脚本仅使用标准库。
+## 安装
 
-首次安装：
+需要 Python 3.9 或更新版本，以及支持目录符号链接的系统。安装脚本只使用 Python 标准库。
 
 ```bash
 git clone https://github.com/WSL0809/codex-pstack.git
 cd codex-pstack
 python3 scripts/manage.py install
-```
-
-已有源码或解压包时，在本目录执行：
-
-```bash
-python3 scripts/manage.py install
 python3 scripts/manage.py status
 ```
 
-默认复制全部 8 个技能到 `~/.agents/skills/`。安装后的技能不依赖此源码目录的位置。安装脚本不会修改 `AGENTS.md`、Codex 模型配置、MCP 配置或项目文件。
+用户级安装可供本机各 Codex 工作区使用。安装器把完整包复制到 `~/.agents/.pstack-packages/<内容摘要>/`，再把 58 个技能目录链接到 `~/.agents/skills/`。复制后的安装不依赖源码仓库位置。原版 `skills/`、`docs/`、`agents/` 和 `automations/` 的相对关系保持完整。
 
-在 Codex 新会话中输入：
+Codex 官方支持用户级技能目录和符号链接，见 [OpenAI 技能文档](https://developers.openai.com/codex/skills)。若新入口没有出现，开启新会话或重启客户端。Windows 需要具备创建符号链接的权限；本版已验证 macOS，未验证 Windows。
+
+不要只复制单个 `SKILL.md`，也不要只下载一个技能目录。原版工作流存在跨技能调用，并依赖包内参考文件。
+
+## 使用
+
+原名保持不变。当前 Codex CLI 会按插件清单加上 `codex-pstack:` 前缀，实际调用如下；其他客户端以技能选择器显示的名称为准：
 
 ```text
-$pstack 实现这个需求，先确认现有行为，再修改并验证。
-$pstack-debug 复现这个错误，定位根因，然后修复。
-$pstack-review 审查当前 diff，不修改代码。
+$codex-pstack:pstack 复现这个问题，定位根因，修复并验证。
+$codex-pstack:poteto-mode 实现这个需求。
+$codex-pstack:how 解释这个子系统如何运行。
+$codex-pstack:why 查明这项设计的历史原因。
+$codex-pstack:architect 为这个变化比较设计方案。
+$codex-pstack:arena 比较这些方案。
+$codex-pstack:interrogate 审查当前改动。
+$codex-pstack:statechart 展示这个状态机和已发现的问题。
+$codex-pstack:correct 分析反复出现的错误，并建立约束。
 ```
 
-Codex CLI 和 IDE 可以用 `$` 或 `/skills` 选择技能。桌面界面也可能通过 `@` 或技能列表选择。Codex 会检测技能变化；如果没有出现，重启客户端。用户级目录、项目级目录和调用方式见 [OpenAI 官方技能文档](https://developers.openai.com/codex/skills)。
+原版使用 `disable-model-invocation: true` 的技能，在 Codex 中对应 `allow_implicit_invocation: false`。这些技能保持显式调用。原版入口不会被合并到新的概括性技能中。完整说明见 [原版 README](docs/UPSTREAM_README.md) 和 [原版指南](docs/guide/README.md)。
 
-安装只让技能可用。自动选择取决于请求与技能描述是否匹配；输入 `$pstack` 可明确指定使用。技能不会自动改写所有任务，也不会在会话结束后持续执行。
+原版指南中的 Cursor 命令、工具、模型名和路径按 [Codex 适配说明](docs/harness/codex.md) 解释。正文保留原始用语，便于对照来源。适配层不能让 Codex 自动获得 Cursor 云代理、Bugbot、Slack、自动化服务或特定模型；缺少必要能力时，必须明确说明步骤未完成。
 
-## 入口
+## 原版技能目录
 
-| 技能 | 用途 |
+| 类别 | 原名入口 |
 |---|---|
-| `$pstack` | 选择流程，完成开发任务 |
-| `$pstack-design` | 数据模型、接口、模块边界与方案比较 |
-| `$pstack-debug` | 复现、根因、性能与测量 |
-| `$pstack-review` | 代码审查与影响分析 |
-| `$pstack-verify` | 行为验证、验证配方与形式化检查 |
-| `$pstack-explain` | 机制、历史原因、教学与上下文恢复 |
-| `$pstack-improve` | 反复纠错、复盘、技能改写与评估 |
-| `$pstack-orchestrate` | 长任务、依赖、交接、暂停与恢复 |
+| 入口与设置 | `poteto-mode`、`poteto-help`、`setup-pstack` |
+| 理解与上下文 | `how`、`why`、`teach`、`recall`、`ketchup`、`in-your-own-words` |
+| 设计、并行与审查 | `architect`、`arena`、`swarm`、`interrogate`、`blast-radius` |
+| 测试与验证 | `tdd`、`benchmark-checklist`、`create-verification-skill`、`maintain-verification-skill`、`create-formal-verification-skill`、`maintain-formal-verification-skill`、`statechart` |
+| 改进与执行记录 | `correct`、`reflect`、`automate-me`、`figure-it-out`、`show-me-your-work` |
+| 写作与代码规范 | `sharpen`、`unslop`、`bro`、`technical-writing`、`no-comments`、`typescript-best-practices` |
+| 服务集成 | `make-bot-ui`，保留完整流程及外部服务前提 |
+| 工程原则 | 全部 24 个 `principle-*` 独立技能，名称和正文保留 |
 
-普通请求可自动匹配专项技能。主入口按需读取参考文件，不要求每次加载全部流程。所有技能应当一起安装，因为它们使用包内相对链接共享规则。
+Benny 的 `setup-benny`、`triage-issue-reports`、`reproduce-and-fix-issues` 位于 `automations/benny/skills/`。与原版一致，它们不注册为顶层入口。通过 [FOR_AGENTS.md](automations/benny/FOR_AGENTS.md) 启动，并读取 [Benny 的 Codex 适配说明](docs/harness/codex-benny.md)。安装文件不会自动启用消息发送、工单写入或后台自动化。
 
-## 更新与卸载
-
-更新源码或解压新版后，在新版目录执行：
+## 从 v0.1.0 更新
 
 ```bash
+git pull --ff-only
 python3 scripts/manage.py update
 python3 scripts/manage.py status
-python3 scripts/manage.py uninstall
 ```
 
-重复安装相同内容不会改写文件。更新会移除上一版管理的旧文件。若发现同名的其他技能或已安装副本有本地修改，脚本停止并报告路径。先把修改保存在别处，再处理安装；脚本不提供强制覆盖选项。其他技能不受影响。
+更新器识别旧安装记录。它会移除受管的 7 个精简专项入口，替换 `$pstack`，并安装 57 个原名技能。若原安装文件已被修改，或存在同名的其他技能，更新停止，不覆盖用户内容。先保存并处理冲突，再重新运行。
 
-安装记录位于技能目录的 `.pstack-install.json`，包括每个受管文件的 SHA-256。普通写入失败会回滚。进程被强制终止或机器断电时，可能留下 `.pstack-install.lock` 和 `.pstack-stage-*`。先确认没有安装进程运行，再检查临时目录中的 `old/` 备份和安装记录。不要直接清空它们。
+后续更新同样使用以上命令。安装记录包含文件摘要；重复安装相同版本不改写文件。更新失败时，安装器尝试恢复原入口和记录。
 
-## 仅供一个项目使用
+## 项目安装与卸载
+
+只给一个项目使用：
 
 ```bash
 python3 scripts/manage.py install --project /absolute/path/to/project
 python3 scripts/manage.py status --project /absolute/path/to/project
+```
+
+这会创建该项目的 `.agents/skills/` 和 `.agents/.pstack-packages/`。链接采用相对路径，移动整个项目后仍可使用。团队提交时需要同时提交这两个目录。不要同时使用同名的用户级和项目级副本，以免重复发现。
+
+卸载本包管理的入口和完整副本：
+
+```bash
+python3 scripts/manage.py uninstall
+# 项目安装：
 python3 scripts/manage.py uninstall --project /absolute/path/to/project
 ```
 
-技能将复制到该项目的 `.agents/skills/`。如果团队需要共享，可以把这部分文件及安装记录纳入版本控制。不要同时安装同名的用户级和项目级副本，否则技能选择器可能出现重复项。
+其他技能和 Codex 配置不受影响。旧客户端可用 `--target "$HOME/.codex/skills"` 显式指定目录。不要同时在两个用户目录安装。
 
-对于仍使用旧技能目录的客户端，可以显式指定目标：
+安装进程被强制终止或机器断电后，可能留下 `.pstack-install.lock`、`.pstack-stage-*` 或完整包的暂存目录。先确认没有安装进程运行，再检查记录及 `old/` 备份。不要直接清空这些目录。普通异常回滚已有测试，断电恢复未自动化。
 
-```bash
-python3 scripts/manage.py install --target "$HOME/.codex/skills"
-```
+## 原版保留与校验
 
-这是兼容选项。默认使用官方当前记录的 `~/.agents/skills/`。不要把同一套技能装到两个用户级目录。
+固定来源是上游 `0.15.30`，提交 `8b3326d99fd4b993cb33a24dad8af03175c642c5`。本版不声称跟随上游最新提交。
 
-本机安装不会自动同步到另一台电脑、远程主机或云环境。在那些环境执行安装，或者使用随仓库分发的项目级副本。
+- `upstream/pstack.zip` 保存完整的 184 个原始文件。
+- `upstream/lock.json` 保存来源、文件摘要和可执行权限。
+- `migration.json` 逐文件记录安装路径、摘要和适配状态。
+- `scripts/port_upstream.py` 从固定快照重建适配文件。
+- `docs/harness/codex.md` 集中记录工具、模型、路径和权限差异。
 
-## 插件分发
-
-本目录也可作为一个完整插件分发。`plugin.json` 是标准插件清单，`.codex-plugin/plugin.json` 是兼容清单。`marketplace.json` 提供本地市场条目。
-
-要在支持本地插件市场的 Codex 客户端中测试，将下面的目录结构作为一个市场根目录：
-
-```text
-some-directory/
-  .agents/plugins/marketplace.json
-  codex-pstack/
-    plugin.json
-    skills/
-```
-
-把本包中的 `marketplace.json` 复制到上图位置，然后按客户端的本地市场流程安装。市场条目中的 `./codex-pstack` 相对于 `some-directory`。本项目尚未提交到 OpenAI 公共插件目录。流程见 [OpenAI 官方插件文档](https://developers.openai.com/plugins/build/plugins)。
-
-个人跨工作区使用时，直接运行 Python 安装脚本即可。不要同时通过插件和直接复制安装同一套技能。
-
-## 验证与维护
+所有原版技能正文均未删减。辅助脚本中只有 worktree 审计脚本做了窄范围调整：历史目录必须显式提供；缺少历史时，候选项保持待检查。其他原版脚本、锁文件、测试和示例保留原始字节。
 
 ```bash
+python3 scripts/port_upstream.py --check
 python3 scripts/validate.py
 python3 -m unittest discover -s tests -v
 python3 scripts/check_codex.py
 ```
 
-包验证检查元数据、链接、迁移表和许可证。安装测试检查更新、回滚、冲突和文件保护。最后一个命令需要已安装的 Codex CLI 和用户级技能，检查当前目录与独立目录中的实际发现结果。这些检查不能证明代理在所有任务中都会正确执行技能。行为验证的记录位于 [VALIDATION.md](docs/VALIDATION.md)。
+最后一条命令需要已安装本包的本机 Codex CLI。完整验证结果及未覆盖范围见 [VALIDATION.md](docs/VALIDATION.md)，适配范围见 [MIGRATION.md](docs/MIGRATION.md)。Bun、Node、Java、TLC 及各种服务连接是原版工具的独立依赖。应在可写副本中安装工具依赖，避免修改受管安装。
 
-修改原则和迁移范围见 [MIGRATION.md](docs/MIGRATION.md)。每个上游技能和工作流的去向记录在 `migration.json`。改写不会通过替换产品名称自动同步上游。更新时应逐项复查工具、权限、模型和运行环境假设。
+TLC 的配置与测试说明见 [TLC.md](docs/TLC.md)。
+
+## 插件分发与许可
+
+本包保留 `plugin.json` 和 `.codex-plugin/plugin.json`。`marketplace.json` 是父目录市场的示例条目，`./codex-pstack` 相对于市场根目录。个人跨工作区使用时，运行安装脚本即可。不要同时通过插件和直接安装重复注册同名技能。
+
+本项目已在 GitHub 公开，尚未提交到 OpenAI 公共插件目录。插件流程见 [OpenAI 插件文档](https://developers.openai.com/plugins/build/plugins)。本机安装不会自动同步到其他机器或云环境。
+
+保留原作者 Lauren Tan 的 [MIT 许可](LICENSE)。这是社区移植版本，不是原作者或 OpenAI 官方发布。

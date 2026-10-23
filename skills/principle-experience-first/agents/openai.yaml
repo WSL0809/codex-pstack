@@ -1,0 +1,6 @@
+interface:
+  display_name: "principle-experience-first"
+  short_description: "Original pstack workflow: principle-experience-first"
+  default_prompt: "Use $principle-experience-first for this task, following the original pstack workflow."
+policy:
+  allow_implicit_invocation: false
