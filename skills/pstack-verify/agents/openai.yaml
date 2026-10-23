@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pstack Verify"
+  short_description: "Check real behavior and critical invariants"
+  default_prompt: "Use $pstack-verify to establish what this change actually proves."

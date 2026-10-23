@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pstack"
+  short_description: "Evidence-based engineering for Codex"
+  default_prompt: "Use $pstack to implement this change and verify its observable behavior."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pstack Improve"
+  short_description: "Turn recurring mistakes into durable checks"
+  default_prompt: "Use $pstack-improve to analyze repeated mistakes in this project."

@@ -1,0 +1,388 @@
+{
+  "upstream": {
+    "repository": "https://github.com/cursor/plugins",
+    "path": "pstack",
+    "commit": "8b3326d99fd4b993cb33a24dad8af03175c642c5"
+  },
+  "skills": {
+    "architect": {
+      "status": "adapted",
+      "target": "skills/pstack-design/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "arena": {
+      "status": "adapted",
+      "target": "skills/pstack-design/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "automate-me": {
+      "status": "adapted",
+      "target": "skills/pstack-improve/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "benchmark-checklist": {
+      "status": "adapted",
+      "target": "skills/pstack-debug/references/measurement.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "blast-radius": {
+      "status": "adapted",
+      "target": "skills/pstack-review/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "bro": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "correct": {
+      "status": "adapted",
+      "target": "skills/pstack-improve/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "create-formal-verification-skill": {
+      "status": "adapted",
+      "target": "skills/pstack-verify/references/formal.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "create-verification-skill": {
+      "status": "adapted",
+      "target": "skills/pstack-verify/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "figure-it-out": {
+      "status": "adapted",
+      "target": "skills/pstack/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "how": {
+      "status": "adapted",
+      "target": "skills/pstack-explain/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "in-your-own-words": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "interrogate": {
+      "status": "adapted",
+      "target": "skills/pstack-review/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "ketchup": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "maintain-formal-verification-skill": {
+      "status": "adapted",
+      "target": "skills/pstack-verify/references/formal.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "maintain-verification-skill": {
+      "status": "adapted",
+      "target": "skills/pstack-verify/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "make-bot-ui": {
+      "status": "excluded",
+      "target": "docs/MIGRATION.md",
+      "note": "Grok Bot webhook and Tailscale setup are product-specific integrations, not part of the portable engineering workflow."
+    },
+    "no-comments": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "poteto-help": {
+      "status": "adapted",
+      "target": "skills/pstack/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "poteto-mode": {
+      "status": "adapted",
+      "target": "skills/pstack/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "principle-attack-the-premise": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-boundary-discipline": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-build-the-lever": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-encode-lessons-in-structure": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-exhaust-the-design-space": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-experience-first": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-explain-the-number": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-fix-root-causes": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-foundational-thinking": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-guard-the-context-window": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-laziness-protocol": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-make-operations-idempotent": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-migrate-callers-then-delete-legacy-apis": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-minimize-reader-load": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-model-the-domain": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-never-block-on-the-human": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-outcome-oriented-execution": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-prove-it-works": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-redesign-from-first-principles": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-separate-before-serializing-shared-state": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-sequence-verifiable-units": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-subtract-before-you-add": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-test-behavior-not-implementation": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "principle-type-system-discipline": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Decision criteria retained with explicit scope and Codex authorization boundaries."
+    },
+    "recall": {
+      "status": "adapted",
+      "target": "skills/pstack-explain/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "reflect": {
+      "status": "adapted",
+      "target": "skills/pstack-improve/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "setup-pstack": {
+      "status": "replaced",
+      "target": "scripts/manage.py",
+      "note": "Portable installer replaces Cursor model configuration; current model selection stays with Codex."
+    },
+    "sharpen": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "show-me-your-work": {
+      "status": "adapted",
+      "target": "skills/pstack-orchestrate/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "statechart": {
+      "status": "adapted",
+      "target": "skills/pstack-verify/references/formal.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "swarm": {
+      "status": "adapted",
+      "target": "skills/pstack-orchestrate/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "tdd": {
+      "status": "adapted",
+      "target": "skills/pstack-debug/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "teach": {
+      "status": "adapted",
+      "target": "skills/pstack-explain/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "technical-writing": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "typescript-best-practices": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/principles.md",
+      "note": "Language-neutral type and boundary rules retained. Use the project toolchain for TypeScript-specific syntax; the upstream syntax catalog is not copied."
+    },
+    "unslop": {
+      "status": "adapted",
+      "target": "skills/pstack/references/communication.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    },
+    "why": {
+      "status": "adapted",
+      "target": "skills/pstack-explain/SKILL.md",
+      "note": "Rewritten for capability-aware Codex execution."
+    }
+  },
+  "playbooks": {
+    "authoring-a-skill": {
+      "status": "consolidated",
+      "target": "skills/pstack-improve/SKILL.md"
+    },
+    "autonomous-run": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "autopilot-full": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "autopilot-stack": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "babysit": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/delivery.md"
+    },
+    "bug-fix": {
+      "status": "consolidated",
+      "target": "skills/pstack-debug/SKILL.md"
+    },
+    "eval": {
+      "status": "consolidated",
+      "target": "skills/pstack-improve/references/evaluation.md"
+    },
+    "feature": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/development.md"
+    },
+    "hillclimb": {
+      "status": "consolidated",
+      "target": "skills/pstack-debug/references/measurement.md"
+    },
+    "investigation": {
+      "status": "consolidated",
+      "target": "skills/pstack-explain/SKILL.md"
+    },
+    "multi-phase-plan": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "opening-a-pr": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/delivery.md"
+    },
+    "orchestrate": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "pause-safely": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "perf-issue": {
+      "status": "consolidated",
+      "target": "skills/pstack-debug/references/measurement.md"
+    },
+    "prototype": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/development.md"
+    },
+    "refactoring": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/development.md"
+    },
+    "runtime-forensics": {
+      "status": "consolidated",
+      "target": "skills/pstack-debug/SKILL.md"
+    },
+    "session-pickup": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/SKILL.md"
+    },
+    "shipping": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/delivery.md"
+    },
+    "trace-forensics": {
+      "status": "consolidated",
+      "target": "skills/pstack-debug/SKILL.md"
+    },
+    "visual-parity": {
+      "status": "consolidated",
+      "target": "skills/pstack/references/development.md"
+    },
+    "worktree-cleanup": {
+      "status": "consolidated",
+      "target": "skills/pstack-orchestrate/references/cleanup.md"
+    }
+  }
+}

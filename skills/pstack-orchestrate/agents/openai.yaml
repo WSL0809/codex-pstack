@@ -1,0 +1,4 @@
+interface:
+  display_name: "Pstack Orchestrate"
+  short_description: "Carry long tasks through verifiable units"
+  default_prompt: "Use $pstack-orchestrate to plan and execute this migration."
